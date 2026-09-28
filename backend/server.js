@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express'), mongoose = require('mongoose'), cors = require('cors'),
   helmet = require('helmet'), compression = require('compression');
 const app = express();
-app.use(helmet(), compression(), cors({ origin: process.env.CLIENT_URL || 'https://bulk-bridge-zhkn.vercel.app/' }), express.json());
+app.use(helmet(), compression(), cors({ origin: process.env.CLIENT_URL || 'https://bulk-bridge-zhkn.vercel.app' }), express.json());
 app.get('/api/health', (q, s) => s.json({ ok: true }));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/shop'));
