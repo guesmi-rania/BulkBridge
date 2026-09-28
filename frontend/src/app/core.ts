@@ -11,18 +11,43 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(t ? req.clone({ setHeaders: { Authorization: `Bearer ${t}` } }) : req);
 };
 
+
+const API_URL = 'https://bulkbridge-ea2b.onrender.com';
+
 @Injectable({ providedIn: 'root' })
 export class Auth {
   http = inject(HttpClient);
   user = signal<any>(JSON.parse(localStorage.getItem('user') || 'null'));
-  private save = (r: any) => { localStorage.setItem('token', r.token); localStorage.setItem('user', JSON.stringify(r.user)); this.user.set(r.user); };
-  login = (b: any) => this.http.post('/api/auth/login', b).pipe(tap(this.save));
-  demo = () => this.http.post('/api/auth/demo', {}).pipe(tap(this.save));
-  register = (b: any) => this.http.post<any>('/api/auth/register', b);
-  verify = (t: string) => this.http.get<any>(`/api/auth/verify/${t}`);
-  forgot = (email: string) => this.http.post<any>('/api/auth/forgot', { email });
-  reset = (t: string, password: string) => this.http.post<any>(`/api/auth/reset/${t}`, { password });
-  logout() { localStorage.removeItem('token'); localStorage.removeItem('user'); this.user.set(null); }
+
+  private save = (r: any) => {
+    localStorage.setItem('token', r.token);
+    localStorage.setItem('user', JSON.stringify(r.user));
+    this.user.set(r.user);
+  };
+
+  login = (b: any) =>
+    this.http.post(`${API_URL}/api/auth/login`, b).pipe(tap(this.save));
+
+  demo = () =>
+    this.http.post(`${API_URL}/api/auth/demo`, {}).pipe(tap(this.save));
+
+  register = (b: any) =>
+    this.http.post<any>(`${API_URL}/api/auth/register`, b);
+
+  verify = (t: string) =>
+    this.http.get<any>(`${API_URL}/api/auth/verify/${t}`);
+
+  forgot = (email: string) =>
+    this.http.post<any>(`${API_URL}/api/auth/forgot`, { email });
+
+  reset = (t: string, password: string) =>
+    this.http.post<any>(`${API_URL}/api/auth/reset/${t}`, { password });
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.user.set(null);
+  }
 }
 
 export const authGuard: CanActivateFn = () => inject(Auth).user() ? true : inject(Router).createUrlTree(['/login']);
