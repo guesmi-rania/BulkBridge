@@ -3,8 +3,13 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CurrencyPipe } from '@angular/common';
 import { Auth, Cart, unit, msg } from '../core';
+
+const API_URL = 'https://bulkbridge-ea2b.onrender.com';
+
 @Component({
-  standalone: true, imports: [CurrencyPipe, RouterLink], template: `
+  standalone: true,
+  imports: [CurrencyPipe, RouterLink],
+  template: `
 <h1>Your cart</h1>
 @if (!c.items().length) { <p>Your cart is empty. <a routerLink="/catalog">Browse the catalog</a></p> } @else {
 <div class="card wide"><table>@for (i of c.items(); track i.p._id) {
@@ -14,10 +19,29 @@ import { Auth, Cart, unit, msg } from '../core';
 <button class="btn" (click)="checkout()">Place order</button> }`
 })
 export class CartPage {
-  c = inject(Cart); a = inject(Auth); r = inject(Router); http = inject(HttpClient); unit = unit; err = '';
+  c = inject(Cart);
+  a = inject(Auth);
+  r = inject(Router);
+  http = inject(HttpClient);
+  unit = unit;
+  err = '';
+
   checkout() {
     if (!this.a.user()) return void this.r.navigate(['/login']);
-    this.http.post('/api/orders', { items: this.c.items().map(i => ({ id: i.p._id, qty: i.qty })) })
-      .subscribe({ next: () => { this.c.clear(); this.r.navigate(['/orders']); }, error: e => this.err = msg(e) });
+
+    this.http
+      .post(`${API_URL}/api/orders`, {
+        items: this.c.items().map(i => ({
+          id: i.p._id,
+          qty: i.qty
+        }))
+      })
+      .subscribe({
+        next: () => {
+          this.c.clear();
+          this.r.navigate(['/orders']);
+        },
+        error: e => this.err = msg(e)
+      });
   }
 }
