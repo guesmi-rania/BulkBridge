@@ -1,0 +1,25 @@
+{"$schema":"./node_modules/@angular/cli/lib/config/schema.json","version":1,"projects":{"b2b-hub":{"projectType":"application","root":"","sourceRoot":"src","prefix":"app","architect":{
+"build":{"builder":"@angular-devkit/build-angular:application","options":{"outputPath":"dist/b2b-hub","index":"src/index.html","browser":"src/main.ts","polyfills":["zone.js"],"tsConfig":"tsconfig.json","assets":[{"glob":"**/*","input":"public"}],"styles":["src/styles.css"]},
+"configurations":{"production":{"outputHashing":"all"},"development":{"optimization":false,"sourceMap":true}},"defaultConfiguration":"production"},
+"serve": {
+  "builder": "@angular-devkit/build-angular:dev-server",
+  "options": {
+    "proxyConfig": "proxy.conf.json"
+  },
+  "configurations": {
+    "production": {
+      "buildTarget": "b2b-hub:build:production"
+    },
+    "development": {
+      "buildTarget": "b2b-hub:build:development"
+    }
+  },
+  "defaultConfiguration": "development"
+}
+}
+}
+},
+"cli": {
+"analytics": "a7077469-4696-4055-bac9-a391b0a81329"
+}
+}
