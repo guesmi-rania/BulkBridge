@@ -1,4 +1,4 @@
-# Project 1 — B2B Hub (Angular + Node.js + MongoDB)
+# bulkbridge — B2B Hub (Angular + Node.js + MongoDB)
 
 A B2B wholesale ordering platform: **volume (tiered) pricing**, **minimum order quantities (MOQ)**, email-verified accounts, password reset, and a **one-click demo account** for recruiters.
 
@@ -46,7 +46,7 @@ Recruiter shortcut: **http://localhost:4200/login?demo=1** signs in automaticall
 - `pages/` – `home`, `catalog` (search + category filter), `cart`, `orders` (guarded), `auth` (login, register, verify, forgot, reset).
 - `public/logo.svg` & `favicon.svg` – app logo/icon. `styles.css` – responsive dark theme with CSS variables.
 
-## 6. Deploy (for your LinkedIn link)
+## 6. Deploy 
 1. **Database:** MongoDB Atlas free cluster → copy the connection string.
 2. **Backend:** Render/Railway → root `backend`, start `npm start`, add the env vars, set `CLIENT_URL` to your frontend URL. Run the seed once (`npm run seed` from the platform shell or locally with the Atlas URI).
 3. **Frontend:** in `frontend/proxy.conf.json` proxies work only in dev. For production replace `'/api/...'` with your API URL (or add a rewrite `/api/* → https://your-api`). Deploy `dist/b2b-hub/browser` to Netlify/Vercel/Cloudflare Pages with an SPA fallback to `index.html`.
