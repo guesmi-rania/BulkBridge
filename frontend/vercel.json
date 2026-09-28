@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://bulkbridge-ea2b.onrender.com/api/health:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
